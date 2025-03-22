@@ -16,11 +16,20 @@ def get_direction_input(prompt):
         if value in ['N', 'S', 'E', 'W']:
             return value
 
-def get_command_input(prompt):
+def get_cmd_input(prompt):
     while True:
         value = input(prompt).strip().upper()
-        if all(c in ['L', 'R', 'F'] for c in value):
-            return value
+        while True:
+            value = input(prompt).strip().upper()
+            is_valid = True
+            for c in value:
+                if c not in ['L', 'R', 'F']:
+                    is_valid = False
+                    break
+            if is_valid:
+                return value
+            else:
+                print("Invalid command! Please use only L, R, or F.")
 
 def main():
     while True:

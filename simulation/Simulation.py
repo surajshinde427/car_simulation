@@ -1,13 +1,22 @@
 class Simulation:
     def __init__(self, width, height):
+        if width <= 0 or height <= 0:
+            raise ValueError("Simulation field dimensions must be positive integers.")
         self.width = width
         self.height = height
         self.cars = {}
 
+
     def add_car(self, car):
+        if car.name in self.cars:
+            raise ValueError(f"Car with name '{car.name}' already exists.")
+        if not (0 <= car.x < self.width and 0 <= car.y < self.height):
+            raise ValueError(f"Car '{car.name}' starting position ({car.x},{car.y}) is out of field bounds.")
+
         self.cars[car.name] = car
 
     def run(self):
+
         max_steps = max(len(car.commands) for car in self.cars.values())
         results = {}
         collisions = {}

@@ -6,8 +6,15 @@ MOVE_MAP = {
     'S': (0, -1),
     'W': (-1, 0)
 }
+
+
 class Car:
     def __init__(self, name, x, y, direction, commands):
+
+        if direction not in DIRECTIONS:
+            raise ValueError(f"Invalid direction '{direction}' for car {name}. Must be one of {DIRECTIONS}")
+        if not all(c in 'LRF' for c in commands):
+            raise ValueError(f"Invalid commands for car {name}. Only L, R, F are allowed.")
         self.name = name
         self.x = x
         self.y = y
@@ -45,6 +52,8 @@ class Car:
         if 0 <= new_x < width and 0 <= new_y < height:
             self.x = new_x
             self.y = new_y
+        else:
+            print(f"[Warning] Car {self.name} attempted to move outside the field and stayed at ({self.x},{self.y}).")
 
     def current_position(self):
         return (self.x, self.y)
